@@ -554,6 +554,36 @@ input:focus, textarea:focus, select:focus {
   line-height: 1.5;
 }
 
+.sandbox-context-box {
+  background: var(--surface-subtle);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  margin: 10px 0 16px;
+}
+
+.context-label {
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--navy-primary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.context-text {
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--navy-primary);
+  line-height: 1.5;
+}
+
 .sandbox-textarea {
   font-family: var(--font-mono);
   font-size: 0.88rem;

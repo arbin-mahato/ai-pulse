@@ -15,11 +15,11 @@ export default function Report({ onBack }) {
     api("/reports/me")
       .then((data) => {
         setReport(data);
-        // Initialize starter inputs for in-platform practice
+        // Initialize starter inputs for in-platform practice (empty by default)
         const initial = {};
         (data.pulse_practice || []).forEach((item) => {
           initial[item.id] = {
-            input: item.starter_input || "",
+            input: "",
             submitting: false,
             feedback: null,
             passed: false,
@@ -42,7 +42,7 @@ export default function Report({ onBack }) {
       ...prev,
       [item.id]: {
         ...(prev[item.id] || {}),
-        input: item.starter_input || "",
+        input: "",
         feedback: null,
         passed: false,
       },
@@ -260,11 +260,29 @@ export default function Report({ onBack }) {
                       </div>
 
                       <p className="sandbox-scenario">
-                        {item.scenario_description}
+                        <strong>Task:</strong> {item.scenario_description}
                       </p>
 
-                      <p style={{ fontSize: "0.82rem", fontWeight: "700", color: "var(--navy-primary)", margin: "0 0 6px" }}>
-                        Your Practice Solution:
+                      {item.starter_input && (
+                        <div className="sandbox-context-box">
+                          <div className="context-label">
+                            <span>📋 Incoming Scenario / Context:</span>
+                            <button
+                              type="button"
+                              className="link-btn"
+                              style={{ fontSize: "0.78rem", textDecoration: "underline" }}
+                              onClick={() => handleInputChange(item.id, item.starter_input)}
+                              title="Copy this text into your solution box to edit or redact it"
+                            >
+                              Insert text into editor ↵
+                            </button>
+                          </div>
+                          <pre className="context-text">{item.starter_input}</pre>
+                        </div>
+                      )}
+
+                      <p style={{ fontSize: "0.85rem", fontWeight: "700", color: "var(--navy-primary)", margin: "0 0 6px" }}>
+                        ✍️ Your Practice Solution / Response:
                       </p>
 
                       <textarea
@@ -272,7 +290,7 @@ export default function Report({ onBack }) {
                         className="sandbox-textarea"
                         value={state.input || ""}
                         onChange={(e) => handleInputChange(item.id, e.target.value)}
-                        placeholder="Type or edit your practice solution here..."
+                        placeholder="Type your response, policy checklist, or sanitized text here..."
                       />
 
                       <div className="sandbox-actions">
