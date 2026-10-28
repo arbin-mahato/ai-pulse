@@ -13,8 +13,8 @@ The inherited prototype ran, but was not safe to give to a client. This branch f
 - **Correctness:** seniority is an explicit rank, role-inappropriate questions are rejected, and all maturity labels share one implementation.
 - **AI guardrails:** only schema-valid model output is stored: integer scores 1–5 and approved risk flags. Provider/model failures save nothing.
 - **Configuration security:** real `.env` files are ignored and removed from Git. Production rejects the default JWT secret; CORS is allow-listed and live AI settings are checked at startup.
-- **Usable & Captivating UI:** a modern enterprise dark-mode aesthetic with interactive option cards, progress tracking, credential autofill chips, and explicit confirmation modals replaces the prototype.
-- **Original Feature (Pulse Practice):** transforms static scorecards into actionable workplace growth with vetted learning packs, 10-minute workplace exercises, and verifiable success criteria.
+- **Usable & Captivating UI:** a minimalist luxury **Beige and Navy Blue** corporate aesthetic with persistent `← Back` navigation, interactive option cards, progress tracking, credential autofill chips, and explicit erasure modals.
+- **Original Feature (Pulse Practice):** connects diagnostic weaknesses to **in-platform interactive practice sandboxes** evaluated by live AI mentoring, supplemented with bonus authoritative deep-dive links.
 
 ## Northwind's request
 
@@ -25,17 +25,17 @@ Both requested changes are implemented.
 
 Confirm before production: whether legal retention overrides hard deletion; whether a minimal deletion audit record is permitted; whether five is correct in every jurisdiction; and exactly which leadership roles may see aggregated data.
 
-## Original feature: Pulse Practice (10-Minute Workplace Sprints)
+## Original feature: Pulse Practice (In-Platform Sprints & Live AI Review)
 
-A generic recommender simply offers a disconnected list of YouTube or blog links. Pulse Practice connects three vital dimensions:
-**Diagnostic Evidence ➔ Vetted Authority Resource ➔ 10-Minute Workplace Exercise + Measurable Success Criteria.**
+A generic recommender merely offers disconnected external links that employees rarely click. Pulse Practice keeps learning **directly on the platform**:
+**Diagnostic Evidence ➔ In-Platform Interactive Sandbox ➔ Live AI Mentoring Review ➔ Bonus Authority Deep Dive.**
 
-- **The Problem It Solves:** Diagnostic tests show employees *where* they stand, but leave them wondering *how* to improve safely.
+- **The Problem It Solves:** Diagnostic tests show employees *where* they stand, but leave them wondering *how* to improve safely without context switching.
 - **How It Works:**
-  - Evaluates specific low scores ($\le 3$) and critical risk flags (`customer_data_shared`, `unreviewed_output`, `policy_unaware`).
-  - Matches curated, 100% live learning packs from authoritative sources (e.g., OWASP Top 10 for LLMs, GitHub Copilot Best Practices, Google Cloud Sensitive Data De-identification, Anthropic Prompt Engineering, NIST AI RMF).
-  - Pairs each resource with a concrete 10-minute practice exercise (e.g., *Redact a sample ticket with PII tokens*) and a measurable success check (*Verify zero raw identifiers in prompt history*).
-- **Why Deterministic:** Rule-based matching ensures explainability, zero hallucinated URLs, zero external API rate-limit failures, and 100% testability during live interviews.
+  - Evaluates specific low scores ($\le 3$) and critical risk flags (`customer_data_shared`, `unreviewed_output`, `policy_unaware`) across roles.
+  - Generates a tailored **In-Platform Practice Sandbox** for each identified gap (e.g. Redacting raw customer PII, writing unit test edge cases for AI code, or refactoring vague prompts).
+  - **Live AI Evaluation:** Employees submit their solution directly on the platform; live AI reviews their attempt and awards a *"Practice Completed ✅"* score.
+  - **Bonus Authority Resources:** Pairs every challenge with an external deep-dive guide from OWASP, Google Cloud, GitHub Docs, Anthropic, or NIST as an optional bonus.
 
 ## Run locally
 
