@@ -79,3 +79,21 @@ def test_employee_can_delete_all_their_diagnostic_data(client):
     report = client.get("/reports/me", headers=headers).json()
     assert report["answered"] == 0
     assert report["level"] == "Not assessed"
+    assert report["pulse_practice"] == []
+
+
+def test_report_includes_pulse_practice_recommendations(client):
+    db = SessionLocal()
+    membership = db.query(models.Membership).filter_by(user_id=5, org_id=1).first()
+    db.close()
+    add_completed_assessment(membership.id, score=2, flags=["customer_data_shared"])
+    headers, _ = login(client, "priya@northwind.test", "Northwind Logistics")
+    report = client.get("/reports/me", headers=headers).json()
+    assert "pulse_practice" in report
+    assert len(report["pulse_practice"]) > 0
+    first = report["pulse_practice"][0]
+    assert "practice" in first
+    assert "success_measure" in first
+    assert first["url"].startswith("https://")
+    assert first["topic"] == "data_safety"
+
