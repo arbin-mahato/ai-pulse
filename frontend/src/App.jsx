@@ -18,27 +18,78 @@ export default function App() {
     setStep("login");
   }
 
+  function handleLoginDone(userSession) {
+    setSession(userSession);
+    setStep("org");
+  }
+
+  function handleBack() {
+    if (step === "org") {
+      logout();
+    } else if (step === "diagnostic") {
+      setStep("org");
+    } else if (step === "report") {
+      setStep(session?.organizations?.length > 1 ? "org" : "diagnostic");
+    } else if (step === "dashboard") {
+      setStep("org");
+    }
+  }
+
   return (
     <div className="wrap">
       <header className="app-header">
-        <div><p className="eyebrow">ELEVANTE AI</p><h1>AI Pulse</h1>{org && <p className="muted">{org.org_name}</p>}</div>
-        {step !== "login" && <nav className="app-actions">
-          {step !== "org" && <button className="secondary" onClick={() => setStep("org")}>Back</button>}
-          <button className="secondary" onClick={logout}>Log out</button>
-        </nav>}
+        <div className="brand-group">
+          <div className="brand-icon">⚡</div>
+          <div className="brand-meta">
+            <p className="brand-eyebrow">ELEVANTE AI</p>
+            <h1>AI Pulse</h1>
+          </div>
+        </div>
+
+        {org && step !== "login" && step !== "org" && (
+          <div className="org-pill">
+            <span>🏢</span>
+            <span>{org.org_name}</span>
+            <strong>• {org.role.toUpperCase()}</strong>
+          </div>
+        )}
+
+        {step !== "login" && (
+          <nav className="app-actions">
+            <button className="back-btn" onClick={handleBack} title="Go back to previous screen">
+              ← Back
+            </button>
+            <button className="secondary" onClick={logout}>
+              Log out
+            </button>
+          </nav>
+        )}
       </header>
-      {step === "login" && (
-        <Login onDone={(s) => { setSession(s); setStep("org"); }} />
-      )}
+
+      {step === "login" && <Login onDone={handleLoginDone} />}
+
       {step === "org" && (
         <OrgPicker
-          orgs={session.organizations}
-          onPick={(o) => { setOrg(o); setStep(o.role === "admin" ? "dashboard" : "diagnostic"); }}
+          orgs={session?.organizations || []}
+          onBack={logout}
+          onPick={(o) => {
+            setOrg(o);
+            setStep(o.role === "admin" ? "dashboard" : "diagnostic");
+          }}
         />
       )}
-      {step === "diagnostic" && <Diagnostic onDone={() => setStep("report")} />}
-      {step === "report" && <Report />}
-      {step === "dashboard" && <Dashboard org={org} />}
+
+      {step === "diagnostic" && (
+        <Diagnostic onBack={() => setStep("org")} onDone={() => setStep("report")} />
+      )}
+
+      {step === "report" && (
+        <Report onBack={() => setStep(session?.organizations?.length > 1 ? "org" : "diagnostic")} />
+      )}
+
+      {step === "dashboard" && (
+        <Dashboard org={org} onBack={() => setStep("org")} />
+      )}
     </div>
   );
 }

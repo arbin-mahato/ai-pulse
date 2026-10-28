@@ -13,7 +13,8 @@ The inherited prototype ran, but was not safe to give to a client. This branch f
 - **Correctness:** seniority is an explicit rank, role-inappropriate questions are rejected, and all maturity labels share one implementation.
 - **AI guardrails:** only schema-valid model output is stored: integer scores 1–5 and approved risk flags. Provider/model failures save nothing.
 - **Configuration security:** real `.env` files are ignored and removed from Git. Production rejects the default JWT secret; CORS is allow-listed and live AI settings are checked at startup.
-- **Usable UI:** a readable privacy-safe dashboard replaces raw JSON; the diagnostic blocks incomplete submissions and warns users not to enter sensitive data.
+- **Usable & Captivating UI:** a minimalist luxury **Beige and Navy Blue** corporate aesthetic with persistent `← Back` navigation, interactive option cards, progress tracking, credential autofill chips, and explicit erasure modals.
+- **Original Feature (Pulse Practice):** connects diagnostic weaknesses to **in-platform interactive practice sandboxes** evaluated by live AI mentoring, supplemented with bonus authoritative deep-dive links.
 
 ## Northwind's request
 
@@ -24,9 +25,17 @@ Both requested changes are implemented.
 
 Confirm before production: whether legal retention overrides hard deletion; whether a minimal deletion audit record is permitted; whether five is correct in every jurisdiction; and exactly which leadership roles may see aggregated data.
 
-## Original feature: safe-use coaching
+## Original feature: Pulse Practice (In-Platform Sprints & Live AI Review)
 
-When a risk is detected, the personal report gives one focused coaching card: what it means and one safe action to take. For example, a customer-data risk teaches redaction before prompting. This closes the gap between identifying unsafe AI use and helping an employee improve.
+A generic recommender merely offers disconnected external links that employees rarely click. Pulse Practice keeps learning **directly on the platform**:
+**Diagnostic Evidence ➔ In-Platform Interactive Sandbox ➔ Live AI Mentoring Review ➔ Bonus Authority Deep Dive.**
+
+- **The Problem It Solves:** Diagnostic tests show employees *where* they stand, but leave them wondering *how* to improve safely without context switching.
+- **How It Works:**
+  - Evaluates specific low scores ($\le 3$) and critical risk flags (`customer_data_shared`, `unreviewed_output`, `policy_unaware`) across roles.
+  - Generates a tailored **In-Platform Practice Sandbox** for each identified gap (e.g. Redacting raw customer PII, writing unit test edge cases for AI code, or refactoring vague prompts).
+  - **Live AI Evaluation:** Employees submit their solution directly on the platform; live AI reviews their attempt and awards a *"Practice Completed ✅"* score.
+  - **Bonus Authority Resources:** Pairs every challenge with an external deep-dive guide from OWASP, Google Cloud, GitHub Docs, Anthropic, or NIST as an optional bonus.
 
 ## Run locally
 

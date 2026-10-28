@@ -26,11 +26,18 @@ class ScoredAnswer(BaseModel):
 
 
 def _json_object(raw: str) -> dict:
-    cleaned = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw.strip(), flags=re.IGNORECASE)
+    cleaned = re.sub(r"^```(?:json)?\s*|\s*```$", "", raw.strip(), flags=re.IGNORECASE).strip()
     try:
         value = json.loads(cleaned)
     except (TypeError, json.JSONDecodeError) as exc:
-        raise ScoringError("AI returned invalid JSON") from exc
+        match = re.search(r"\{[\s\S]*\}", raw)
+        if match:
+            try:
+                value = json.loads(match.group(0))
+            except Exception:
+                raise ScoringError("AI returned invalid JSON") from exc
+        else:
+            raise ScoringError("AI returned invalid JSON") from exc
     if not isinstance(value, dict):
         raise ScoringError("AI returned an invalid response shape")
     return value
