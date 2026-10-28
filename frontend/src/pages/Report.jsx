@@ -250,7 +250,7 @@ export default function Report({ onBack }) {
                     <div className="practice-sandbox">
                       <div className="sandbox-header">
                         <span className="sandbox-title">
-                          <span>⚡</span> {item.scenario_title || "Interactive Practice Challenge"}
+                          <span style={{ color: "var(--navy-primary)", fontWeight: 700 }}>◈</span> {item.scenario_title || "Interactive Practice Challenge"}
                         </span>
                         {state.passed && (
                           <span style={{ fontSize: "0.8rem", fontWeight: "700", color: "var(--emerald)" }}>

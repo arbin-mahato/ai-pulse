@@ -39,7 +39,21 @@ export default function App() {
     <div className="wrap">
       <header className="app-header">
         <div className="brand-group">
-          <div className="brand-icon">⚡</div>
+          <div className="brand-icon" title="AI Pulse Diagnostic Platform">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+            </svg>
+          </div>
           <div className="brand-meta">
             <p className="brand-eyebrow">ELEVANTE AI</p>
             <h1>AI Pulse</h1>
