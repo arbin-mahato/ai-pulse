@@ -58,7 +58,7 @@ Tests use safe, deterministic `AI_MODE=mock`. For a local Groq demonstration, ke
 AI_MODE=live
 LLM_API_URL=https://api.groq.com/openai/v1/chat/completions
 LLM_API_KEY=your-local-groq-key
-LLM_MODEL=llama-3.3-70b-versatile
+LLM_MODEL=openai/gpt-oss-20b
 ```
 
 Never commit or put this key in frontend code. A live provider must not receive enterprise data until client data-processing approval, provider retention terms, data region, and prompt-redaction rules are agreed.
