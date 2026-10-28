@@ -18,6 +18,15 @@ PEOPLE_NORTHWIND = [
     ("Dev Malhotra", "dev@northwind.test", "Engineering", "employee", "engineering", "lead"),
     ("Sara Thomas", "sara@northwind.test", "Engineering", "employee", "engineering", "mid"),
     ("Imran Khan", "imran@northwind.test", "HR", "employee", "manager", "senior"),
+    ("Jack Smith", "jack@northwind.test", "Engineering", "employee", "engineering", "mid"),
+    ("Savi Guptill", "savi@northwind.test", "HR", "employee", "manager", "senior"),
+    ("Aryan Patro", "aryan@northwind.test", "Engineering", "employee", "engineering", "mid"),
+    ("Shubham Sharma", "shubham@northwind.test", "Engineering", "employee", "engineering", "mid"),
+    ("Junaid Hussain", "junaid@northwind.test", "HR", "employee", "manager", "senior"),
+    ("Ram Yadav", "ram@northwind.test", "HR", "employee", "manager", "senior"),
+    ("Monika Dahal", "monika@northwind.test", "HR", "employee", "manager", "senior"),
+    ("Ravi Kapoor", "ravi@northwind.test", "HR", "employee", "manager", "senior"),
+    ("Pranav Sharma", "pranav@northwind.test", "Engineering", "employee", "engineering", "mid"),
 ]
 PEOPLE_BLUEPEAK = [
     ("Meera Pillai", "meera@bluepeak.test", None, "admin", "manager", "lead"),

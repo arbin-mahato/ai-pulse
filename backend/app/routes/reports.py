@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from ..db import get_db
 from .. import models
 from ..auth import current_membership
+from ..services.recommendations import get_recommendations
 from ..utils import average_score, maturity_level
 
 router = APIRouter(prefix="/reports", tags=["reports"])
@@ -33,11 +34,13 @@ def my_report(m: models.Membership = Depends(current_membership), db: Session = 
     rows = assessment.responses if assessment else []
     avg = average_score(rows)
     flags = sorted({flag for row in rows for flag in (row.flags or [])})
+    recs = get_recommendations(m.job_role, m.seniority, rows, flags)
     return {"name": m.user.name, "organization": m.org.name, "answered": len(rows),
             "completed_at": assessment.submitted_at.isoformat() if assessment else None,
             "average_score": round(avg, 2) if avg is not None else None,
             "level": maturity_level(avg), "risks": flags,
             "coaching": [COACHING[flag] | {"risk": flag} for flag in flags if flag in COACHING],
+            "pulse_practice": recs,
             "next_steps": NEXT_STEPS.get(m.job_role, NEXT_STEPS["manager"])}
 
 
