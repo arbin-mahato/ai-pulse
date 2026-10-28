@@ -31,6 +31,7 @@ export default function Report() {
       {report.risks.length ? <ul>{report.risks.map((r) => <li key={r}>{r.replaceAll("_", " ")}</li>)}</ul> : <p>No risks were identified.</p>}
       <h3>Next steps</h3>
       <ul>{report.next_steps.map((s) => <li key={s}>{s}</li>)}</ul>
+      {report.coaching.length > 0 && <><h3>Your safe-use coaching</h3>{report.coaching.map((item) => <div className="coaching" key={item.risk}><b>{item.title}</b><p>{item.action}</p></div>)}</>}
       <hr />
       <h3>Delete my diagnostic data</h3>
       <p className="muted">This permanently deletes your answers and report for {report.organization}.</p>
