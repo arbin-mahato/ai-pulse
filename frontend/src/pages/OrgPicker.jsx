@@ -1,7 +1,7 @@
 import React from "react";
 import { api, setToken } from "../api.js";
 
-export default function OrgPicker({ orgs, onPick }) {
+export default function OrgPicker({ orgs, onPick, onBack }) {
   async function pick(o) {
     const data = await api("/auth/select-org", {
       method: "POST",
@@ -13,7 +13,14 @@ export default function OrgPicker({ orgs, onPick }) {
 
   return (
     <div className="card">
-      <h2 className="card-title">Select Organization Workspace</h2>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+        <h2 className="card-title" style={{ margin: 0 }}>Select Organization Workspace</h2>
+        {onBack && (
+          <button type="button" className="secondary" style={{ padding: "6px 12px", fontSize: "0.82rem" }} onClick={onBack}>
+            ← Back to Login
+          </button>
+        )}
+      </div>
       <p className="card-subtitle">
         Your account belongs to multiple workspaces. Select the organization you are acting on behalf of.
       </p>

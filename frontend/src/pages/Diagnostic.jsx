@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { api } from "../api.js";
 
-export default function Diagnostic({ onDone }) {
+export default function Diagnostic({ onDone, onBack }) {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
   const [error, setError] = useState("");
@@ -52,7 +52,14 @@ export default function Diagnostic({ onDone }) {
 
   return (
     <div className="card">
-      <h2 className="card-title">Role-Adaptive AI Diagnostic</h2>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
+        <h2 className="card-title" style={{ margin: 0 }}>Role-Adaptive AI Diagnostic</h2>
+        {onBack && (
+          <button type="button" className="secondary" style={{ padding: "6px 12px", fontSize: "0.82rem" }} onClick={onBack}>
+            ← Back
+          </button>
+        )}
+      </div>
       <p className="card-subtitle">
         Questions are adapted to your job role and seniority. Please provide honest reflections on your daily AI use.
       </p>

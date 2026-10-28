@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { api } from "../api.js";
 
-export default function Dashboard({ org }) {
+export default function Dashboard({ org, onBack }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
 

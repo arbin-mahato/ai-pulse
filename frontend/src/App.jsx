@@ -20,8 +20,19 @@ export default function App() {
 
   function handleLoginDone(userSession) {
     setSession(userSession);
-    // If user belongs to only 1 organization, auto-select it or show org picker
     setStep("org");
+  }
+
+  function handleBack() {
+    if (step === "org") {
+      logout();
+    } else if (step === "diagnostic") {
+      setStep("org");
+    } else if (step === "report") {
+      setStep(session?.organizations?.length > 1 ? "org" : "diagnostic");
+    } else if (step === "dashboard") {
+      setStep("org");
+    }
   }
 
   return (
@@ -35,26 +46,19 @@ export default function App() {
           </div>
         </div>
 
-        {org && (
+        {org && step !== "login" && step !== "org" && (
           <div className="org-pill">
             <span>🏢</span>
             <span>{org.org_name}</span>
-            <strong>• {org.role}</strong>
+            <strong>• {org.role.toUpperCase()}</strong>
           </div>
         )}
 
         {step !== "login" && (
           <nav className="app-actions">
-            {step !== "org" && session?.organizations?.length > 1 && (
-              <button className="secondary" onClick={() => setStep("org")}>
-                Switch Org
-              </button>
-            )}
-            {step !== "org" && session?.organizations?.length === 1 && step === "report" && (
-              <button className="secondary" onClick={() => setStep("diagnostic")}>
-                Retake
-              </button>
-            )}
+            <button className="back-btn" onClick={handleBack} title="Go back to previous screen">
+              ← Back
+            </button>
             <button className="secondary" onClick={logout}>
               Log out
             </button>
@@ -66,7 +70,8 @@ export default function App() {
 
       {step === "org" && (
         <OrgPicker
-          orgs={session.organizations}
+          orgs={session?.organizations || []}
+          onBack={logout}
           onPick={(o) => {
             setOrg(o);
             setStep(o.role === "admin" ? "dashboard" : "diagnostic");
@@ -75,12 +80,16 @@ export default function App() {
       )}
 
       {step === "diagnostic" && (
-        <Diagnostic onDone={() => setStep("report")} />
+        <Diagnostic onBack={() => setStep("org")} onDone={() => setStep("report")} />
       )}
 
-      {step === "report" && <Report />}
+      {step === "report" && (
+        <Report onBack={() => setStep(session?.organizations?.length > 1 ? "org" : "diagnostic")} />
+      )}
 
-      {step === "dashboard" && <Dashboard org={org} />}
+      {step === "dashboard" && (
+        <Dashboard org={org} onBack={() => setStep("org")} />
+      )}
     </div>
   );
 }
