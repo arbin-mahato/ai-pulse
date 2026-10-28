@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 from ..db import get_db
 from .. import models
 from ..auth import current_membership
-from ..services.recommendations import get_recommendations
+from pydantic import BaseModel
+from ..services.recommendations import get_recommendations, evaluate_practice_attempt
 from ..utils import average_score, maturity_level
 
 router = APIRouter(prefix="/reports", tags=["reports"])
@@ -44,9 +45,26 @@ def my_report(m: models.Membership = Depends(current_membership), db: Session = 
             "next_steps": NEXT_STEPS.get(m.job_role, NEXT_STEPS["manager"])}
 
 
+class PracticeAttempt(BaseModel):
+    practice_id: str
+    scenario_description: str
+    user_solution: str
+
+
 @router.delete("/me", status_code=204)
 def delete_my_diagnostic(m: models.Membership = Depends(current_membership), db: Session = Depends(get_db)):
     """Hard-delete diagnostic content for the employee in their selected organization."""
     db.query(models.Response).filter_by(membership_id=m.id).delete(synchronize_session=False)
     db.query(models.Assessment).filter_by(membership_id=m.id).delete(synchronize_session=False)
     db.commit()
+
+
+@router.post("/practice/verify")
+def verify_practice(attempt: PracticeAttempt, m: models.Membership = Depends(current_membership)):
+    """Evaluates in-platform interactive practice attempts via live AI mentoring."""
+    return evaluate_practice_attempt(
+        attempt.practice_id,
+        attempt.scenario_description,
+        attempt.user_solution,
+    )
+

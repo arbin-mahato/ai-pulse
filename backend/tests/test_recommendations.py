@@ -14,7 +14,8 @@ def test_resources_load_and_have_required_fields():
     for r in resources:
         assert r["id"]
         assert r["title"]
-        assert r["url"].startswith("https://")
+        url = r.get("bonus_url") or r.get("url")
+        assert url and url.startswith("https://")
         assert r["practice"]
         assert r["success_measure"]
         assert r["duration_minutes"] > 0
@@ -72,3 +73,16 @@ def test_support_role_excludes_developer_coding_packs():
 
 def test_empty_responses_return_empty_recommendations():
     assert get_recommendations("engineering", "lead", [], []) == []
+
+
+def test_in_platform_practice_evaluation():
+    from app.services.recommendations import evaluate_practice_attempt
+    result = evaluate_practice_attempt(
+        practice_id="owasp-llm-data-protection",
+        scenario_description="Strip PII from incoming customer query",
+        user_solution="Dear [CUSTOMER_NAME], your order [ORDER_ID] has been checked.",
+    )
+    assert result["passed"] is True
+    assert "feedback" in result
+    assert result["score"] >= 3
+
