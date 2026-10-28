@@ -13,7 +13,8 @@ The inherited prototype ran, but was not safe to give to a client. This branch f
 - **Correctness:** seniority is an explicit rank, role-inappropriate questions are rejected, and all maturity labels share one implementation.
 - **AI guardrails:** only schema-valid model output is stored: integer scores 1–5 and approved risk flags. Provider/model failures save nothing.
 - **Configuration security:** real `.env` files are ignored and removed from Git. Production rejects the default JWT secret; CORS is allow-listed and live AI settings are checked at startup.
-- **Usable UI:** a readable privacy-safe dashboard replaces raw JSON; the diagnostic blocks incomplete submissions and warns users not to enter sensitive data.
+- **Usable & Captivating UI:** a modern enterprise dark-mode aesthetic with interactive option cards, progress tracking, credential autofill chips, and explicit confirmation modals replaces the prototype.
+- **Original Feature (Pulse Practice):** transforms static scorecards into actionable workplace growth with vetted learning packs, 10-minute workplace exercises, and verifiable success criteria.
 
 ## Northwind's request
 
@@ -24,9 +25,17 @@ Both requested changes are implemented.
 
 Confirm before production: whether legal retention overrides hard deletion; whether a minimal deletion audit record is permitted; whether five is correct in every jurisdiction; and exactly which leadership roles may see aggregated data.
 
-## Original feature: safe-use coaching
+## Original feature: Pulse Practice (10-Minute Workplace Sprints)
 
-When a risk is detected, the personal report gives one focused coaching card: what it means and one safe action to take. For example, a customer-data risk teaches redaction before prompting. This closes the gap between identifying unsafe AI use and helping an employee improve.
+A generic recommender simply offers a disconnected list of YouTube or blog links. Pulse Practice connects three vital dimensions:
+**Diagnostic Evidence ➔ Vetted Authority Resource ➔ 10-Minute Workplace Exercise + Measurable Success Criteria.**
+
+- **The Problem It Solves:** Diagnostic tests show employees *where* they stand, but leave them wondering *how* to improve safely.
+- **How It Works:**
+  - Evaluates specific low scores ($\le 3$) and critical risk flags (`customer_data_shared`, `unreviewed_output`, `policy_unaware`).
+  - Matches curated, 100% live learning packs from authoritative sources (e.g., OWASP Top 10 for LLMs, GitHub Copilot Best Practices, Google Cloud Sensitive Data De-identification, Anthropic Prompt Engineering, NIST AI RMF).
+  - Pairs each resource with a concrete 10-minute practice exercise (e.g., *Redact a sample ticket with PII tokens*) and a measurable success check (*Verify zero raw identifiers in prompt history*).
+- **Why Deterministic:** Rule-based matching ensures explainability, zero hallucinated URLs, zero external API rate-limit failures, and 100% testability during live interviews.
 
 ## Run locally
 
