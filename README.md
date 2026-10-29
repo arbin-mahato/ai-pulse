@@ -2,19 +2,31 @@
 
 AI Pulse measures practical, safe AI adoption by role. Employees complete a role-aware diagnostic and receive a private report; organization admins see only privacy-safe trends.
 
-## What changed
+## What was wrong and what was fixed
 
-The inherited prototype ran, but was not safe to give to a client. This branch fixes the highest-risk issues:
+### What was found wrong
 
-- **Tenant isolation:** organization membership is verified before a scoped token is issued. The dashboard gets its organization from that token, never a browser-supplied ID.
-- **Northwind privacy:** a department needs at least five completed diagnostics to appear. Small departments are combined as `Other teams` only when that combined group also reaches five; risk trends use the same rule.
+The inherited prototype ran, but had critical security leaks, broken tests, and missing privacy controls:
+
+- **Cross-tenant data breach:** `GET /dashboard?org_id=...` trusted user-supplied query parameters, allowing an admin from one company to inspect another company's dashboard. Furthermore, `/auth/select-org` allowed minting tokens for organizations the user did not belong to.
+- **Failing test suite & seniority bug:** The test suite failed out-of-the-box because seniority was compared alphabetically (`"lead" < "senior"`), blocking valid questions.
+- **Missing role authorization:** Employees could submit answers to questions that were never assigned to their role or seniority.
+- **Unchecked assessment completion:** Dashboards averaged partial, scattered answers rather than enforcing complete, validated assessment submissions.
+- **Unacted client requests:** Northwind Logistics' privacy requirements (5-person minimum threshold and employee right-to-delete) had not been started.
+- **Configuration & secret exposure:** Real `.env` files were tracked in Git, and the app accepted default JWT secrets in production.
+- **Unfinished UI:** The frontend rendered raw JSON dumps rather than a usable enterprise interface.
+
+### What was fixed
+
+- **Tenant isolation:** Organization membership is strictly verified before a scoped token is issued. The dashboard derives its organization exclusively from that signed token, returning HTTP 403 on any cross-tenant attempt.
+- **Northwind privacy:** Departments need at least five completed diagnostics to appear. Small departments are combined as `Other teams` only when that combined group also reaches five; risk trends use the same rule.
 - **Right to delete:** `DELETE /reports/me` hard-deletes the selected employee's answers and assessments. Dashboard calculations use current data, so the removal is immediate.
-- **Assessment integrity:** a submission must contain every assigned question exactly once. Reports and dashboards use only the latest completed assessment.
-- **Correctness:** seniority is an explicit rank, role-inappropriate questions are rejected, and all maturity labels share one implementation.
-- **AI guardrails:** only schema-valid model output is stored: integer scores 1–5 and approved risk flags. Provider/model failures save nothing.
-- **Configuration security:** real `.env` files are ignored and removed from Git. Production rejects the default JWT secret; CORS is allow-listed and live AI settings are checked at startup.
-- **Usable & Captivating UI:** a minimalist luxury **Beige and Navy Blue** corporate aesthetic with persistent `← Back` navigation, interactive option cards, progress tracking, credential autofill chips, and explicit erasure modals.
-- **Original Feature (Pulse Practice):** connects diagnostic weaknesses to **in-platform interactive practice sandboxes** evaluated by live AI mentoring, supplemented with bonus authoritative deep-dive links.
+- **Assessment integrity:** A submission must contain every assigned question exactly once. Reports and dashboards use only the latest completed assessment.
+- **Correctness:** Seniority is an explicit ordered rank, role-inappropriate questions are rejected, and all maturity labels share one implementation.
+- **AI guardrails:** Only schema-valid model output is stored (integer scores 1–5 and approved risk flags). Provider/model failures save nothing.
+- **Configuration security:** Real `.env` files are ignored and removed from Git. Production rejects the default JWT secret; CORS is allow-listed and live AI settings are checked at startup.
+- **Usable & Captivating UI:** A minimalist luxury **Beige and Navy Blue** corporate aesthetic with persistent `← Back` navigation, interactive option cards, progress tracking, credential autofill chips, and explicit erasure modals.
+- **Original Feature (Pulse Practice):** Connects diagnostic weaknesses to **in-platform interactive practice sandboxes** evaluated by live AI mentoring, supplemented with bonus authoritative deep-dive links.
 
 ## Northwind's request
 
