@@ -97,3 +97,14 @@ def test_report_includes_pulse_practice_recommendations(client):
     assert first["url"].startswith("https://")
     assert first["topic"] == "data_safety"
 
+
+def test_health_and_root_endpoints(client):
+    r_health = client.get("/health")
+    assert r_health.status_code == 200
+    assert r_health.json() == {"status": "ok"}
+
+    r_root = client.get("/")
+    assert r_root.status_code == 200
+    assert r_root.json()["status"] == "ok"
+
+
