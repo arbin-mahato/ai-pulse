@@ -22,12 +22,12 @@ app.include_router(reports.router)
 app.include_router(dashboard.router)
 
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 def root():
     return {"status": "ok", "service": "AI Pulse API", "health": "/health"}
 
 
-@app.get("/health")
+@app.api_route("/health", methods=["GET", "HEAD"])
 def health():
     return {"status": "ok"}
 

@@ -99,6 +99,7 @@ def test_report_includes_pulse_practice_recommendations(client):
 
 
 def test_health_and_root_endpoints(client):
+    # Test GET
     r_health = client.get("/health")
     assert r_health.status_code == 200
     assert r_health.json() == {"status": "ok"}
@@ -106,5 +107,12 @@ def test_health_and_root_endpoints(client):
     r_root = client.get("/")
     assert r_root.status_code == 200
     assert r_root.json()["status"] == "ok"
+
+    # Test HEAD (used by UptimeRobot and cloud health monitors)
+    r_health_head = client.head("/health")
+    assert r_health_head.status_code == 200
+
+    r_root_head = client.head("/")
+    assert r_root_head.status_code == 200
 
 
